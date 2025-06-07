@@ -19,10 +19,14 @@ jobs:
         with:
           submodules: true
           lfs: false
-      - name: Set manifest version to github run ID
+      - name: Set manifest patch version to github run ID
         run: |
+          current_version=$(jq -r '.version' src/EdcMgmt.Client/wwwroot/manifest.webmanifest)
+          echo "Current manifest version: $current_version"
+          new_version=$(echo $current_version | awk -F. -v OFS=. '{$NF = ENVIRON["GITHUB_RUN_NUMBER"]; print}')
           echo "Setting manifest version to github run ID in src/EdcMgmt.Client/wwwroot/manifest.webmanifest"
-          sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"0.0.${GITHUB_RUN_NUMBER}\"/" src/EdcMgmt.Client/wwwroot/manifest.webmanifest
+          sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$new_version\"/" src/EdcMgmt.Client/wwwroot/manifest.webmanifest
+          # sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"0.0.${GITHUB_RUN_NUMBER}\"/" src/EdcMgmt.Client/wwwroot/manifest.webmanifest
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
