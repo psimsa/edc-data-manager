@@ -1,13 +1,7 @@
 ﻿@inject IJSRuntime _jsRuntime
-
-@if (_newVersionAvailable)
-{
-    <FluentButton OnClick="ReloadPage" >Aplikace byla aktualizována. Klikněte pro aktivaci.</FluentButton>
-}
+@inject IToastService ToastService
 
 @code {
-
-    private bool _newVersionAvailable = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -25,9 +19,7 @@
     [JSInvokable(nameof(OnUpdateAvailable))]
     public Task OnUpdateAvailable()
     {
-        _newVersionAvailable = true;
-
-        StateHasChanged();
+        ToastService.ShowToast(ToastIntent.Download, "Aplikace byla aktualizována", 0, "Obnovit", EventCallback.Factory.Create<ToastResult>(this, ReloadPage));
 
         return Task.CompletedTask;
     }
