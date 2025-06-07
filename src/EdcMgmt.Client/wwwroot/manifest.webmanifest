@@ -1,6 +1,6 @@
 {
-  "name": "EdcMgmt.Client",
-  "short_name": "EdcMgmt.Client",
+  "name": "EDC Group Manager",
+  "short_name": "EDC-GM",
   "id": "./",
   "start_url": "./",
   "display": "standalone",

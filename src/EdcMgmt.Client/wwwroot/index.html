@@ -31,6 +31,29 @@
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script>
+
+        window.updateAvailable = new Promise((resolve, reject) => {
+            navigator.serviceWorker.getRegistration().then(registration => {
+                registration.onupdatefound = () => {
+                    const installingServiceWorker = registration.installing
+                    installingServiceWorker.onstatechange = () => {
+                        if (installingServiceWorker.state === 'installed') {
+                            resolve(!!navigator.serviceWorker.controller)
+                        }
+                    }
+                }
+            })
+        })
+
+        window.registerForUpdateAvailableNotification = (caller, methodName) => {
+            window.updateAvailable.then(isUpdateAvailable => {
+                if (isUpdateAvailable) {
+                    caller.invokeMethodAsync(methodName).then()
+                }
+            })
+        }
+    </script>
 </body>
 
 </html>
