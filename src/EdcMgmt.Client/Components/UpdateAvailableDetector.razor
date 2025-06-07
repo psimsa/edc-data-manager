@@ -1,0 +1,31 @@
+﻿@inject IJSRuntime _jsRuntime
+@inject IToastService ToastService
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RegisterForUpdateAvailableNotification();
+    }
+
+    private async Task RegisterForUpdateAvailableNotification()
+    {
+        await _jsRuntime.InvokeAsync<object>(
+            identifier: "registerForUpdateAvailableNotification",
+            DotNetObjectReference.Create(this),
+            nameof(OnUpdateAvailable));
+    }
+
+    [JSInvokable(nameof(OnUpdateAvailable))]
+    public Task OnUpdateAvailable()
+    {
+        ToastService.ShowToast(ToastIntent.Download, "Aplikace byla aktualizována", 0, "Obnovit", EventCallback.Factory.Create<ToastResult>(this, ReloadPage));
+
+        return Task.CompletedTask;
+    }
+
+    private async Task ReloadPage()
+    {
+        await _jsRuntime.InvokeVoidAsync("window.location.reload");
+    }
+}
