@@ -18,5 +18,6 @@
       "type": "image/png",
       "sizes": "192x192"
     }
-  ]
+  ],
+  "version": "0.0.1"
 }

@@ -1,5 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @inject IStringLocalizer<ClientResources> Loc
+@inject HttpClient Http
 
 <FluentLayout>
     <FluentHeader>
@@ -21,9 +22,25 @@
         </FluentBodyContent>
     </FluentStack>
     <FluentFooter>
-        <a href="https://www.fluentui-blazor.net" target="_blank">Documentation and demos</a>
+        @* <a href="https://www.fluentui-blazor.net" target="_blank">Documentation and demos</a> *@
+        @title
         <FluentSpacer />
         <a href="https://learn.microsoft.com/en-us/aspnet/core/blazor" target="_blank">About Blazor</a>
     </FluentFooter>
     <UpdateAvailableDetector />
 </FluentLayout>
+
+@code {
+    private string title = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var manifest = await Http.GetFromJsonAsync<Manifest>("/manifest.webmanifest");
+        title = $"{manifest?.name} {manifest?.version}";
+
+        // StateHasChanged();
+    }
+
+    record Manifest(string version, string name);
+
+}
