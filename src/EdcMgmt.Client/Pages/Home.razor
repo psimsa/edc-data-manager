@@ -1,7 +1,9 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+@inject IStringLocalizer<ClientResources> Loc
 
-<h1>Hello, world!</h1>
+<PageTitle>@Loc[ResourceConstants.HomeTitle]</PageTitle>
 
-Welcome to your new app.
+<h1>@Loc[ResourceConstants.HomeCaption]</h1>
+
+Welcome to your new Fluent Blazor app.
