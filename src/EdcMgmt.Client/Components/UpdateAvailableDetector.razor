@@ -2,11 +2,7 @@
 
 @if (_newVersionAvailable)
 {
-@*     <button type="button" class="btn btn-warning shadow floating-update-button" onclick="window.location.reload()">
-        Aplikace byla aktualizována. Klikněte pro aktivaci.
-    </button> *@
-    <FluentButton class="floating-update-button" OnClick="ReloadPage">
-    Aplikace byla aktualizována. Klikněte pro aktivaci. Foo</FluentButton>
+    <FluentButton OnClick="ReloadPage" >Aplikace byla aktualizována. Klikněte pro aktivaci.</FluentButton>
 }
 
 @code {

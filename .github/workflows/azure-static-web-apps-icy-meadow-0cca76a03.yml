@@ -19,7 +19,7 @@ jobs:
         with:
           submodules: true
           lfs: false
-      - name: Set manifest version to github run ID in src/EdcMgmt.Client/wwwroot/manifest.webmanifest
+      - name: Set manifest version to github run ID
         run: |
           echo "Setting manifest version to github run ID in src/EdcMgmt.Client/wwwroot/manifest.webmanifest"
           sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"0.0.${GITHUB_RUN_ID}\"/" src/EdcMgmt.Client/wwwroot/manifest.webmanifest
