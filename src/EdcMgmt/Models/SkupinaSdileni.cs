@@ -69,14 +69,14 @@ public class SkupinaSdileni
         {
             var items = group.ToArray();
 
-            var eans = getEans(items);
+            var (consumptionEans, productionEans) = getEans(items);
 
             yield return new SkupinaSdileni
             {
                 Id = group.Key,
                 Description = "",
-                ConsumptionEans = eans.consumptionEans,
-                ProductionEans = eans.productionEans
+                ConsumptionEans = consumptionEans,
+                ProductionEans = productionEans
             };
         }
     }

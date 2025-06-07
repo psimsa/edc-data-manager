@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.FluentUI.AspNetCore.Components;
@@ -13,6 +14,7 @@ builder.Services.AddFluentUIComponents();
 
 builder.Services.AddFileSystemAccessService();
 
+builder.Services.AddBlazoredLocalStorageAsSingleton();
 builder.Services.AddLocalization();
 var app = builder.Build();
 
