@@ -1,10 +1,17 @@
-﻿namespace EdcMgmt.Models;
+﻿
+using System.Globalization;
+
+namespace EdcMgmt.Models;
+
 
 // IdSkupinySdileni;Operace;EANo;DatumOd;DatumDo;EANd1;AlokacniKlic1;EANd2;AlokacniKlic2;EANd3;AlokacniKlic3;EANd4;AlokacniKlic4;EANd5;AlokacniKlic5;Vysledek
 // 22313;;859182400302838511;01.06.2025;31.12.9999;859182400611509249;1;;;;;;;;;
 
 public class SkupinaSdileni
 {
+    // Maximum number of production EANs per consumption EAN
+    private const int MaxProductionEans = 5;
+
     public ConsumptionEan[] ConsumptionEans { get; set; } = Array.Empty<ConsumptionEan>();
     public ProductionEan[] ProductionEans { get; set; } = Array.Empty<ProductionEan>();
     public string Id { get; set; } = string.Empty;
@@ -21,7 +28,6 @@ public class SkupinaSdileni
             var prodEans = new List<ProductionEan>();
             ProductionEan GetOrCreateProdEan(string eanId)
             {
-                // return prodEans.FirstOrDefault(e => e.EAN == eanId) ?? new ProductionEan { EAN = eanId };
                 if (!prodEans.Any(e => e.EAN == eanId))
                 {
                     var newEan = new ProductionEan { EAN = eanId };
@@ -49,13 +55,13 @@ public class SkupinaSdileni
 
                 var consEan = GetOrCreateConsEan(consEanId);
 
-                for (int i = 1; i<6; i++)
+                for (int i = 1; i <= MaxProductionEans; i++)
                 {
                     var ean = columnset[3 + (i * 2)];
                     if (string.IsNullOrWhiteSpace(ean)) continue;
 
                     var allocationKeyString = columnset[4 + (i * 2)];
-                    var allocationKey = string.IsNullOrWhiteSpace(allocationKeyString) ? 0 : Convert.ToDecimal(allocationKeyString.Replace(',', '.'));
+                    var allocationKey = string.IsNullOrWhiteSpace(allocationKeyString) ? 0 : Convert.ToDecimal(allocationKeyString, CultureInfo.InvariantCulture);
 
                     var existingProdEan = GetOrCreateProdEan(ean);
                     existingProdEan.Allocations.Add(new Allocation(consEan.EAN, (int)(allocationKey * 100)));

@@ -4,28 +4,14 @@
 
 <h3>Test</h3>
 
-<FluentTextArea Id="testTextArea" Label="Test Text Area" Placeholder="Type here..." Rows="5" ResizeMode="ResizeMode.Both" AutoResize="true" ValueChanged="@OnValueChanged" />
-
-@* @if (strings != null)
-{
-    <div style="display: table; table-layout: fixed; width: 100%;">
-        <div style="overflow-x: auto;">
-            <FluentDataGrid Id="testGrid" Items="strings" GridTemplateColumns="1fr 1fr" TGridItem="string[]" Style="min-width: max-content;">
-                @foreach (var col in header)
-                {
-                    <PropertyColumn Title="@col" Property="@(c => c[Array.IndexOf(header, col)])" Sortable="true" Align="Align.Start" Style="text-overflow: unset; overflow: visible;" />
-                }
-            </FluentDataGrid>
-        </div>
-    </div>
-} *@
-<div>
+<FluentTextArea Id="testTextArea" Label="Test Text Area" Placeholder="Type here..." Rows="5" ResizeMode="ResizeMode.Both" AutoResize="true" @bind-Value="TextAreaValue" /><div>
     @SkupinaJson
 </div>
 
 @code {
     private IQueryable<string[]>? strings;
     private string[] header = Array.Empty<string>();
+    private string TextAreaValue = string.Empty;
 
     string SkupinaJson = "{}";
 
