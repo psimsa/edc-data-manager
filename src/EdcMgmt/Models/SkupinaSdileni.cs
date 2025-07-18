@@ -64,7 +64,7 @@ public class SkupinaSdileni
                     var allocationKey = string.IsNullOrWhiteSpace(allocationKeyString) ? 0 : Convert.ToDecimal(allocationKeyString, CultureInfo.InvariantCulture);
 
                     var existingProdEan = GetOrCreateProdEan(ean);
-                    existingProdEan.Allocations.Add(new Allocation(consEan.EAN, (int)(allocationKey * 100)));
+                    existingProdEan.Allocations.Add(new Allocation(consEan.EAN, (int)(allocationKey * PERCENTAGE_MULTIPLIER)));
                 }
             }
 
