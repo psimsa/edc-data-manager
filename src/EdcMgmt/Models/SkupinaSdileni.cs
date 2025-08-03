@@ -17,6 +17,8 @@ public class SkupinaSdileni
     public string Id { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 
+    private const int PERCENTAGE_MULTIPLIER = 100;
+
 
 
     public static IEnumerable<SkupinaSdileni> FromExportFile(string csvData)
