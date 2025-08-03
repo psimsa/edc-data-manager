@@ -1,16 +1,43 @@
 ﻿@inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
+@inject IStringLocalizer<ClientResources> Loc
+@inject HttpClient Http
+@using Icons = Microsoft.FluentUI.AspNetCore.Components.Icons
+
+<FluentLayout>
+    <FluentHeader>
+        @Loc[ResourceConstants.HomeTitle] <FluentSpacer /> <UpdateAvailableDetector />
+    </FluentHeader>
+    <FluentStack Class="main" Orientation="Orientation.Horizontal" Width="100%">
         <NavMenu />
-    </div>
+        <FluentBodyContent Class="body-content">
+            <ErrorBoundary>
+                <ChildContent>
+                    <div class="content">
+                        @Body
+                    </div>
+                </ChildContent>
+                <ErrorContent Context="ex">
+                    <div class="blazor-error-boundary">@ex.Message</div>
+                </ErrorContent>
+            </ErrorBoundary>
+        </FluentBodyContent>
+    </FluentStack>
+    <FluentFooter>
+            @title
+        <FluentSpacer />
+        <a href="https://github.com/psimsa/edc-data-manager" target="_blank"><img src="github-mark.svg" width="15" height="15"/></a>
+    </FluentFooter>
+    <FluentToastProvider/>
+</FluentLayout>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+@code {
+    private string title = "";
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+    protected override async Task OnInitializedAsync()
+    {
+        var manifest = await Http.GetFromJsonAsync<Manifest>("/manifest.webmanifest");
+        title = $"{manifest?.name} {manifest?.version}";
+    }
+
+    record Manifest(string version, string name);
+}

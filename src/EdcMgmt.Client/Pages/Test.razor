@@ -1,0 +1,29 @@
+﻿@page "/test"
+@using EdcMgmt.Models
+@using System.Text.Json
+
+<h3>Test</h3>
+
+<FluentTextArea Id="testTextArea" Label="Test Text Area" Placeholder="Type here..." Rows="5" ResizeMode="ResizeMode.Both" AutoResize="true" @bind-Value="TextAreaValue" /><div>
+    @SkupinaJson
+</div>
+
+@code {
+    private IQueryable<string[]>? strings;
+    private string[] header = Array.Empty<string>();
+    private string TextAreaValue = string.Empty;
+
+    string SkupinaJson = "{}";
+
+    public async Task OnValueChanged(string value)
+    {
+        var skupina = SkupinaSdileni.FromExportFile(value);
+        SkupinaJson = JsonSerializer.Serialize(skupina, new JsonSerializerOptions { WriteIndented = true });
+        /*var parsed = value.Trim().Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(line => line.Split(new[] { ';' }))
+            .ToArray();
+
+        header = parsed.FirstOrDefault() ?? Array.Empty<string>();
+        strings = parsed.Skip(1).AsQueryable();*/
+    }
+}

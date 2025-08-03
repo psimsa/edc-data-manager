@@ -1,0 +1,17 @@
+﻿namespace EdcMgmt.Tests;
+
+public class UnitTest1
+{
+    [Fact]
+    public void Test1()
+    {
+        var source = """
+            IdSkupinySdileni;Operace;EANo;DatumOd;DatumDo;EANd1;AlokacniKlic1;EANd2;AlokacniKlic2;EANd3;AlokacniKlic3;EANd4;AlokacniKlic4;EANd5;AlokacniKlic5;Vysledek
+            22313;;859182400302838511;01.06.2025;31.12.9999;859182400611509249;1;;;;;;;;;
+            22313;;859182400306241157;01.06.2025;31.12.9999;859182400312449370;0,2;;;;;;;;;
+            22313;;859182400604806744;01.06.2025;31.12.9999;859182400312449370;0,8;;;;;;;;;
+            """;
+
+        var skupiny = EdcMgmt.Models.SkupinaSdileni.FromExportFile(source).ToList();
+    }
+}
